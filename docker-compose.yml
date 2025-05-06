@@ -10,5 +10,23 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
-    command: >
+    command: > 
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=recipe
+      - DB_USER=amirali
+      - DB_PASS=1234
+
+  db:
+    image: postgres:17.4-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=recipe
+      - POSTGRES_USER=amirali
+      - POSTGRES_PASSWORD=1234
+
+
+volumes:
+  dev-db-data:
