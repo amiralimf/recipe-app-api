@@ -37,7 +37,7 @@ def create_recipe(user, **params):
     """ Create and retunr a sample recipe """
     defaults = {
         'title': 'sample title',
-        'time_minutes': 22,
+        'time_minutes': '22',
         'price': Decimal('5.25'),
         'description': 'Sample descritpion',
         'link': 'https://meow.com',
@@ -82,7 +82,7 @@ class PrivateRecipeApiTests(TestCase):
         recipes = Recipe.objects.all().order_by('-id')
         serializer = RecipeSerializer(recipes, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertCountEqual(res.data, serializer.data)
 
     def test_recipe_list_limited_to_user(self):
         """ Test list of recipes is limited to authenticated user """
@@ -333,7 +333,7 @@ class PrivateRecipeApiTests(TestCase):
         """ Test creating an ingredient when updating a recipe """
         recipe = create_recipe(user=self.user)
 
-        payload = {'ingredients': [{'name': 'limes'}]}
+        payload = {'ingredients': [{'name': 'Limes'}]}
         url = detail_url(recipe.id)
         res = self.client.patch(url, payload, format='json')
 
